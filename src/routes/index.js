@@ -38,7 +38,8 @@ import {
   AAMasuk,
   AADaftar,
   AAUpload,
-  Divisi
+  Divisi,
+  Jenis
 } from '../pages';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomNavigator } from '../components';
@@ -83,8 +84,7 @@ export default function Router() {
         name="AAMasuk"
         component={AAMasuk}
         options={{
-          headerShown: true,
-          headerTitle: 'Pesan Masuk',
+          headerShown: false,
           headerTintColor: colors.white,
           headerStyle: {
             backgroundColor: colors.primary
@@ -99,6 +99,19 @@ export default function Router() {
         options={{
           headerShown: false,
           headerTitle: 'Daftar Dokumen',
+          headerTintColor: colors.white,
+          headerStyle: {
+            backgroundColor: colors.primary
+          }
+        }}
+      />
+
+      <Stack.Screen
+        name="Jenis"
+        component={Jenis}
+        options={{
+          headerShown: false,
+          headerTitle: 'Jenis Dokumen',
           headerTintColor: colors.white,
           headerStyle: {
             backgroundColor: colors.primary

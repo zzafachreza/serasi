@@ -45,7 +45,7 @@ export default function Account({ navigation, route }) {
     }, [isFocused]);
 
     const btnKeluar = () => {
-        Alert.alert('Siska Puncak', 'Apakah kamu yakin akan keluar ?', [
+        Alert.alert('Serasi', 'Apakah kamu yakin akan keluar ?', [
             {
                 text: 'Batal',
                 style: "cancel"

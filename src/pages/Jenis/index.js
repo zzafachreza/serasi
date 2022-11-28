@@ -28,9 +28,8 @@ import 'intl/locale-data/jsonp/en';
 import { showMessage } from 'react-native-flash-message';
 import { Modalize } from 'react-native-modalize';
 import RNFetchBlob from 'rn-fetch-blob';
-import { Icon } from 'react-native-elements';
-import Pdf from 'react-native-pdf';
-export default function AAMasuk({ navigation, route }) {
+import { Icon } from 'react-native-elements'
+export default function Jenis({ navigation, route }) {
     const isFocused = useIsFocused();
     const [data, setData] = useState([]);
     const [user, setUser] = useState({});
@@ -81,53 +80,61 @@ export default function AAMasuk({ navigation, route }) {
                         textAlign: 'center',
                         flex: 1,
                     }}>{route.params.nama_divisi}</Text>
-                    <Text style={{
-                        fontFamily: fonts.secondary[400],
-                        fontSize: myDimensi / 2,
-                        color: colors.white,
-                        textAlign: 'center',
-                        flex: 1,
-                    }}>{route.params.jenis}</Text>
-                    <Text style={{
-                        fontFamily: fonts.secondary[400],
-                        fontSize: myDimensi / 2,
-                        color: colors.white,
-                        textAlign: 'center',
-                        flex: 1,
-                    }}>{route.params.judul}</Text>
                 </View>
 
 
 
             </View>
+
             <View style={{
                 flex: 1,
+                padding: 10,
+                justifyContent: 'space-around'
             }}>
-                <Pdf style={{
-                    width: windowWidth,
-                    height: '100%'
-                }}
-                    enablePaging={true}
+                <TouchableOpacity
 
-                    trustAllCerts={false}
-                    source={{
-                        uri: route.params.url
-                    }}
-                    onLoadComplete={(numberOfPages, filePath) => {
-                        console.log(`Number of pages: ${numberOfPages}`);
-                    }}
-                    onPageChanged={(page, numberOfPages) => {
-                        console.log(`Current page: ${page}`);
-                    }}
-                    onError={(error) => {
-                        console.log(error);
-                    }}
-                    onPressLink={(uri) => {
-                        console.log(`Link pressed: ${uri}`);
-                    }}
-                />
+                    onPress={() => navigation.navigate('AADaftar', {
+                        fid_divisi: route.params.fid_divisi,
+                        nama_direktorat: route.params.nama_direktorat,
+                        nama_divisi: route.params.nama_divisi,
+                        jenis: 'Daftar Panduan Kerja'
+                    })}
+                    style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundColor: colors.primary,
+                        padding: 10,
+                        height: windowHeight / 3
+                    }}>
+                    <Text style={{
+                        fontFamily: fonts.secondary[600],
+                        fontSize: myDimensi / 0.8,
+                        color: colors.white,
+
+                    }}>Daftar Panduan Kerja</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('AADaftar', {
+                    fid_divisi: route.params.fid_divisi,
+                    nama_direktorat: route.params.nama_direktorat,
+                    nama_divisi: route.params.nama_divisi,
+                    jenis: 'Daftar Kebijakan'
+                })} style={{
+                    justifyContent: 'center',
+                    borderWidth: 1,
+                    borderColor: colors.primary,
+                    alignItems: 'center',
+                    backgroundColor: colors.white,
+                    padding: 10,
+                    height: windowHeight / 3
+                }}>
+                    <Text style={{
+                        fontFamily: fonts.secondary[600],
+                        fontSize: myDimensi / 0.8,
+                        color: colors.primary,
+
+                    }}>Daftar Kebijakan</Text>
+                </TouchableOpacity>
             </View>
-
         </SafeAreaView>
     )
 }

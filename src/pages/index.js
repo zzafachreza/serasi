@@ -29,6 +29,7 @@ import AAMasuk from './AAMasuk';
 import AADaftar from './AADaftar';
 import AAUpload from './AAUpload';
 import Divisi from './Divisi';
+import Jenis from './Jenis';
 
 
 
@@ -71,6 +72,7 @@ export {
   AADaftar,
   AAUpload,
 
-  Divisi
+  Divisi,
+  Jenis
 
 };

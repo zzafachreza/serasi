@@ -33,7 +33,7 @@ export default function Divisi({ navigation, route }) {
 
     const __divisi = ({ item }) => {
         return (
-            <TouchableOpacity onPress={() => navigation.navigate('AADaftar', {
+            <TouchableOpacity onPress={() => navigation.navigate('Jenis', {
                 fid_divisi: item.id_divisi,
                 nama_direktorat: item.nama_direktorat,
                 nama_divisi: item.nama_divisi

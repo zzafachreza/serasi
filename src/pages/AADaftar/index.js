@@ -36,32 +36,37 @@ export default function AADaftar({ navigation, route }) {
 
     useEffect(() => {
         if (isFocused) {
-            getData('user').then(u => setUser(u));
+            getData('user').then(u => {
+                console.log(u);
+                setUser(u)
+            });
 
-            _getDataTransaction(route.params.fid_divisi);
+            _getDataTransaction(route.params.fid_divisi, route.params.jenis);
 
         }
     }, [isFocused]);
 
 
-    const _getDataTransaction = (uid) => {
+    const _getDataTransaction = (uid, jenis) => {
 
         axios.post(apiURL + '1data_dokumen.php', {
             fid_divisi: uid,
+            jenis: jenis
 
         }).then(res => {
-            console.warn('data dokument', res.data);
+            // console.warn('data dokument', res.data);
             setData(res.data);
         })
 
     }
 
 
-    const _getDataTransactionKey = (key, fid_divisi = route.params.fid_divisi) => {
+    const _getDataTransactionKey = (key, fid_divisi = route.params.fid_divisi, jenis = route.params.jenis) => {
 
         axios.post(apiURL + '1data_dokumen.php', {
             fid_divisi: fid_divisi,
-            key: key
+            key: key,
+            jenis: jenis
         }).then(res => {
             console.warn(res.data);
             setData(res.data);
@@ -148,7 +153,7 @@ export default function AADaftar({ navigation, route }) {
             <ScrollView showsVerticalScrollIndicator={false}>
                 {data.map(i => {
                     return (
-                        <TouchableOpacity style={{
+                        <View style={{
                             flexDirection: 'row',
                             alignItems: 'center',
                             borderBottomWidth: 1,
@@ -181,74 +186,103 @@ export default function AADaftar({ navigation, route }) {
 
                             </View>
 
-                            {user.unduh &&
 
-                                <View>
+                            <TouchableOpacity onPress={() => {
 
-                                    <TouchableOpacity onPress={() => {
+                                navigation.navigate('AAMasuk', {
+                                    fid_divisi: route.params.fid_divisi,
+                                    nama_direktorat: route.params.nama_direktorat,
+                                    nama_divisi: route.params.nama_divisi,
+                                    id_dokumen: i.id_dokumen,
+                                    judul: i.judul,
+                                    jenis: i.jenis,
+                                    url: i.url
+                                })
 
-                                        Alert.alert(
-                                            "SERASI",
-                                            "Unduh dokumen ini ?",
-                                            [
-                                                {
-                                                    text: "Cancel",
-                                                    style: "cancel",
-                                                },
-                                                {
-                                                    text: "OK", onPress: () => {
+                            }} style={{
+                                marginRight: 5,
+                                backgroundColor: colors.primary,
+                                width: 70,
+                                paddingVertical: 5,
+                                borderRadius: 10,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                flexDirection: 'row'
+                            }}>
+                                <Icon name='eye' color={colors.white} />
+                                <Text style={{
+                                    left: 2,
+                                    fontFamily: fonts.secondary[400],
+                                    fontSize: myDimensi / 2.5,
+                                    color: colors.white
+                                }}>Lihat</Text>
+                            </TouchableOpacity>
 
-                                                        PermissionsAndroid.request(
-                                                            PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-                                                            {
-                                                                title: 'storage title',
-                                                                message: 'storage_permission',
-                                                            },
-                                                        ).then(granted => {
-                                                            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                                                                //Once user grant the permission start downloading
-                                                                console.log('Storage Permission Granted.');
-                                                                downloadHistory(i.url, i.judul, 'pdf');
-                                                                // Linking.openURL(i.url)
-                                                            } else {
-                                                                //If permission denied then show alert 'Storage Permission 
-                                                                Alert.alert('storage_permission');
-                                                            }
-                                                        });
-                                                    }
+                            {user.unduh == 1 &&
+
+
+                                <TouchableOpacity onPress={() => {
+
+                                    Alert.alert(
+                                        "SERASI",
+                                        "Unduh dokumen ini ?",
+                                        [
+                                            {
+                                                text: "Cancel",
+                                                style: "cancel",
+                                            },
+                                            {
+                                                text: "OK", onPress: () => {
+
+                                                    PermissionsAndroid.request(
+                                                        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+                                                        {
+                                                            title: 'storage title',
+                                                            message: 'storage_permission',
+                                                        },
+                                                    ).then(granted => {
+                                                        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                                                            //Once user grant the permission start downloading
+                                                            console.log('Storage Permission Granted.');
+                                                            downloadHistory(i.url, i.judul, 'pdf');
+                                                            // Linking.openURL(i.url)
+                                                        } else {
+                                                            //If permission denied then show alert 'Storage Permission 
+                                                            Alert.alert('storage_permission');
+                                                        }
+                                                    });
                                                 }
-                                            ],
+                                            }
+                                        ],
 
-                                        );
+                                    );
 
 
-                                    }} style={{
-                                        backgroundColor: colors.secondary,
-                                        width: 80,
-                                        paddingVertical: 5,
-                                        borderRadius: 10,
-                                        justifyContent: 'center',
+                                }} style={{
+                                    backgroundColor: colors.secondary,
+                                    width: 80,
+                                    paddingVertical: 5,
+                                    borderRadius: 10,
+                                    justifyContent: 'center',
 
-                                        flexDirection: 'row'
-                                    }}>
-                                        <Icon name='download' color={colors.white} />
-                                        <Text style={{
-                                            left: 5,
-                                            fontFamily: fonts.secondary[400],
-                                            fontSize: myDimensi / 2.5,
-                                            color: colors.white
-                                        }}>Unduh</Text>
-                                    </TouchableOpacity>
+                                    flexDirection: 'row'
+                                }}>
+                                    <Icon name='download' color={colors.white} />
                                     <Text style={{
-                                        fontFamily: fonts.primary[200],
-                                        fontSize: myDimensi / 3,
-                                        color: colors.black
-                                    }}>{i.nama_file}</Text>
-                                </View>
+                                        left: 5,
+                                        fontFamily: fonts.secondary[400],
+                                        fontSize: myDimensi / 2.5,
+                                        color: colors.white
+                                    }}>Unduh</Text>
+                                </TouchableOpacity>
+
+
                             }
 
 
-                        </TouchableOpacity>
+
+
+                        </View>
                     )
                 })}
             </ScrollView>
