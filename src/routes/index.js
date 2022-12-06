@@ -276,7 +276,7 @@ export default function Router() {
         component={Outlet}
         options={{
           headerShown: true,
-          headerTitle: 'Daftar Outlet',
+          headerTitle: 'Tentang Serasi',
           headerTintColor: colors.white,
           headerStyle: {
             backgroundColor: colors.primary

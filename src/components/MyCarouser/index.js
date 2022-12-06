@@ -33,15 +33,17 @@ export default function MyCarouser() {
   const [data, setData] = useState([]);
 
   const renderCarouselItem = ({ item }) => (
-    <Image
-      source={{ uri: item.image }}
-      style={{
-        resizeMode: 'cover',
-        height: 180,
-        width: 300,
-        borderRadius: 10,
-      }}
-    />
+    <TouchableOpacity onPress={() => navigation.navigate('Outlet')}>
+      <Image
+        source={{ uri: item.image }}
+        style={{
+          resizeMode: 'cover',
+          height: 180,
+          width: 300,
+          borderRadius: 10,
+        }}
+      />
+    </TouchableOpacity>
   );
 
   return (

@@ -115,7 +115,7 @@ export default function Login({ navigation }) {
             }}>
               <Icon type='ionicon' name='card-outline' size={myDimensi / 1.6} color={colors.primary} />
             </View>
-            <TextInput placeholderTextColor={colors.border_form} autoCapitalize='none' value={kirim.email} onChangeText={v => setKirim({
+            <TextInput maxLength={12} placeholderTextColor={colors.border_form} autoCapitalize='none' value={kirim.email} onChangeText={v => setKirim({
               ...kirim,
               npp: v
             })}
@@ -194,7 +194,8 @@ export default function Login({ navigation }) {
           <MyGap jarak={40} />
           {!loading && <MyButton onPress={__masuk_via_email} title="Masuk" warna={colors.primary} Icons="log-in-outline" />}
           {loading && <ActivityIndicator color={colors.primary} size="large" />}
-
+          <MyGap jarak={10} />
+          {!loading && <MyButton onPress={() => navigation.navigate('Register')} title="Daftar" warna={colors.white} colorText={colors.primary} borderSize={1} borderColor={colors.primary} Icons="log-in-outline" />}
 
         </View>
 

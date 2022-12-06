@@ -29,6 +29,7 @@ import { showMessage } from 'react-native-flash-message';
 import { Modalize } from 'react-native-modalize';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import RNFetchBlob from 'rn-fetch-blob';
+import Share from 'react-native-share';
 export default function AADaftar({ navigation, route }) {
     const isFocused = useIsFocused();
     const [data, setData] = useState([]);
@@ -38,7 +39,13 @@ export default function AADaftar({ navigation, route }) {
         if (isFocused) {
             getData('user').then(u => {
                 console.log(u);
-                setUser(u)
+                axios.post(apiURL + 'v1_user.php', {
+                    npp: u.npp
+                }).then(res => {
+                    setUser(res.data);
+                    storeData('user', res.data)
+                })
+
             });
 
             _getDataTransaction(route.params.fid_divisi, route.params.jenis);
@@ -100,6 +107,16 @@ export default function AADaftar({ navigation, route }) {
             .fetch('GET', url)
             .then((res) => {
                 // success
+                Share.open({
+                    url: 'file://' + PictureDir +
+                        '/' + nama_file + '.' + exe
+                })
+                    .then((res) => {
+                        console.log(res);
+                    })
+                    .catch((err) => {
+                        err && console.log(err);
+                    });
                 showMessage({
                     message: 'File berhasil di unduh',
                     type: 'success'
@@ -134,7 +151,7 @@ export default function AADaftar({ navigation, route }) {
                     }}>
                         <Icon name='search' light size={myDimensi / 1.6} color={colors.primary} />
                     </View>
-                    <TextInput placeholderTextColor={colors.border_form} onSubmitEditing={e => _getDataTransactionKey(e.nativeEvent.text)} autoCapitalize='none' value={key} onChangeText={x => setKey(x)}
+                    <TextInput autoFocus placeholderTextColor={colors.border_form} onSubmitEditing={e => _getDataTransactionKey(e.nativeEvent.text)} autoCapitalize='none' value={key} onChangeText={x => setKey(x)}
 
                         style={{
                             borderWidth: 1,
@@ -165,6 +182,11 @@ export default function AADaftar({ navigation, route }) {
                                 flex: 1,
                                 paddingLeft: 10,
                             }}>
+                                {route.params.jenis == "Semua" && <Text style={{
+                                    fontFamily: fonts.secondary[400],
+                                    fontSize: myDimensi / 3,
+                                    color: colors.black
+                                }}>{i.nama_direktorat} / {i.nama_divisi}</Text>}
 
                                 <Text style={{
                                     fontFamily: fonts.secondary[600],
@@ -218,7 +240,8 @@ export default function AADaftar({ navigation, route }) {
                                 }}>Lihat</Text>
                             </TouchableOpacity>
 
-                            {user.unduh == 1 &&
+                            {
+                                user.unduh == 1 &&
 
 
                                 <TouchableOpacity onPress={() => {
@@ -286,7 +309,7 @@ export default function AADaftar({ navigation, route }) {
                     )
                 })}
             </ScrollView>
-        </SafeAreaView>
+        </SafeAreaView >
     )
 }
 

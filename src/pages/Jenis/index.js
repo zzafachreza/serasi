@@ -86,6 +86,7 @@ export default function Jenis({ navigation, route }) {
 
             </View>
 
+
             <View style={{
                 flex: 1,
                 padding: 10,

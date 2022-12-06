@@ -1,97 +1,87 @@
-import { ActivityIndicator, ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { FlatList, Image, Linking, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { MyInput } from '../../components'
+import { colors } from '../../utils/colors'
+import { apiURL, getData, storeData, urlToken } from '../../utils/localStorage';
+import { fonts, myDimensi, windowHeight, windowWidth } from '../../utils/fonts';
+import { Icon } from 'react-native-elements'
 import axios from 'axios';
-import { apiURL, colors, fonts, myDimensi, urlToken } from '../../utils';
-import { Icon } from 'react-native-elements';
+import 'intl';
+import 'intl/locale-data/jsonp/en';
+import { useIsFocused } from '@react-navigation/native';
+import { MyGap } from '../../components';
 
-export default function ({ navigation }) {
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(false);
-
+export default function Outlet() {
+    const [comp, setComp] = useState({});
     useEffect(() => {
-        getTransaction();
-    }, [])
-    const getTransaction = () => {
-        setLoading(true)
-        axios.post(apiURL + 'v1_outlet.php', {
-            api_token: urlToken,
-        }).then(res => {
-            console.log(res.data);
-            setData(res.data);
-            setLoading(false);
+        if (isFocused) {
+            getComp();
+        }
+    }, [isFocused])
+
+    const isFocused = useIsFocused();
+
+    const getComp = () => {
+        axios.post(apiURL + 'company.php').then(res => {
+            console.log('comapany', res.data)
+            setComp(res.data);
         })
     }
 
-    const getTransactionKey = (x) => {
-        setLoading(true)
-        axios.post(apiURL + 'v1_outlet.php', {
-            api_token: urlToken,
-            key: x
-        }).then(res => {
-            console.log(res.data);
-            setData(res.data);
-            setLoading(false);
-        })
-    }
     return (
         <View style={{
+            backgroundColor: colors.white,
             flex: 1,
+            padding: 10,
         }}>
-            <View style={{
-                padding: 10,
-            }}>
-                <MyInput onSubmitEditing={
-                    (x) => {
-                        console.warn(x.nativeEvent.text);
-                        getTransactionKey(x.nativeEvent.text);
-                    }
-                } nolabel placeholder="Cari lokasi" iconname='search' />
-            </View>
-            <ScrollView showsVerticalScrollIndicator={false}>
-                {
-                    !loading &&
-                    data.map((i, index) => {
-                        return (
-                            <TouchableOpacity onPress={() => {
-                                navigation.navigate('OutletDetail', i)
-                            }} style={{
-                                marginHorizontal: 10,
-                                marginVertical: 10,
-                                borderBottomWidth: 1,
-                                borderBottomColor: colors.border_form,
-                                padding: 10,
-                                flexDirection: 'row'
-                            }}>
-                                <View style={{
-                                    flex: 1,
-                                }}>
-                                    <Text style={{
-                                        fontFamily: fonts.secondary[600],
-                                        fontSize: myDimensi / 2,
-                                        color: colors.black,
-                                    }}>{i.nama_outlet}</Text>
-                                    <Text style={{
-                                        fontFamily: fonts.secondary[400],
-                                        fontSize: myDimensi / 2.5,
-                                        color: colors.border_label,
-                                    }}>{i.alamat_outlet}</Text>
-                                </View>
+            <Image source={require('../../assets/logo.png')} style={{
 
-                                <View style={{
-                                    justifyContent: 'center',
-                                    alignItems: 'center'
-                                }}>
-                                    <Icon type='ionicon' name='chevron-forward-outline' color={colors.primary} />
-                                </View>
-                            </TouchableOpacity>
-                        )
-                    })
+                height: myDimensi / 0.4,
+                width: 150,
+                margin: 10,
+                alignSelf: 'center'
+            }} />
 
-                }
+            <Text style={{
+                fontFamily: fonts.secondary[400],
+                fontSize: myDimensi / 2.5,
+                color: colors.black,
+                textAlign: 'center'
+            }}>{comp.deskripsi}</Text>
+            <MyGap jarak={10} />
+            <Text style={{
+                fontFamily: fonts.secondary[600],
+                fontSize: myDimensi / 2.5,
+                color: colors.black
+            }}>Alamat</Text>
+            <Text style={{
+                fontFamily: fonts.secondary[400],
+                fontSize: myDimensi / 2.5,
+                color: colors.black
+            }}>{comp.alamat}</Text>
+            <MyGap jarak={10} />
+            <Text style={{
+                fontFamily: fonts.secondary[600],
+                fontSize: myDimensi / 2.5,
+                color: colors.black
+            }}>Telepon</Text>
+            <Text style={{
+                fontFamily: fonts.secondary[400],
+                fontSize: myDimensi / 2.5,
+                color: colors.black
+            }}>{comp.tlp}</Text>
 
-                {loading && <ActivityIndicator color={colors.primary} size="large" />}
-            </ScrollView>
+            <MyGap jarak={10} />
+            <Text style={{
+                fontFamily: fonts.secondary[600],
+                fontSize: myDimensi / 2.5,
+                color: colors.black
+            }}>Email</Text>
+            <Text style={{
+                fontFamily: fonts.secondary[400],
+                fontSize: myDimensi / 2.5,
+                color: colors.black
+            }}>{comp.email}</Text>
+
         </View>
     )
 }

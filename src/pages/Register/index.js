@@ -20,7 +20,7 @@ export default function Register({ navigation }) {
   const [kirim, setKirim] = useState({
     api_token: urlToken,
     nama_lengkap: null,
-    email: null,
+    npp: null,
     telepon: null,
     password: null,
   });
@@ -79,30 +79,15 @@ export default function Register({ navigation }) {
               fontSize: myDimensi / 2
             }}>Buat Akun Baru</Text>
           </TouchableOpacity>
-          <View style={{
-            flexDirection: 'row'
-          }}>
-            <View style={{
-              flex: 1,
-            }}>
-              <Image source={require('../../assets/logo.png')} style={{
-                resizeMode: 'contain',
-                height: myDimensi / 0.4,
-                margin: 10,
-                alignSelf: 'center'
-              }} />
-            </View>
-            <View style={{
-              flex: 1,
-            }}>
-              <Image source={require('../../assets/pemda.png')} style={{
-                resizeMode: 'contain',
-                height: myDimensi / 0.4,
-                margin: 10,
-                alignSelf: 'center'
-              }} />
-            </View>
-          </View>
+
+          <Image source={require('../../assets/logo.png')} style={{
+
+            height: myDimensi / 0.4,
+            width: 150,
+            margin: 10,
+            alignSelf: 'center'
+          }} />
+
 
 
         </View>
@@ -195,7 +180,7 @@ export default function Register({ navigation }) {
             fontSize: myDimensi / 2,
             color: colors.border_label,
             marginBottom: 5,
-          }}>Email</Text>
+          }}>NPP</Text>
 
           <View style={{
             position: 'relative'
@@ -207,49 +192,11 @@ export default function Register({ navigation }) {
               alignItems: 'center',
               height: '100%', padding: 10,
             }}>
-              <Icon type='ionicon' name='mail-outline' size={myDimensi / 1.6} color={colors.primary} />
+              <Icon type='ionicon' name='card-outline' size={myDimensi / 1.6} color={colors.primary} />
             </View>
-            <TextInput autoCapitalize='none' value={kirim.email} onChangeText={v => setKirim({
+            <TextInput maxLength={12} autoCapitalize='none' value={kirim.npp} onChangeText={v => setKirim({
               ...kirim,
-              email: v
-            })}
-              keyboardType='email-address'
-              style={{
-                borderWidth: 1,
-                borderColor: colors.border_form,
-                borderRadius: 10,
-                fontSize: myDimensi / 2,
-                color: colors.black,
-                paddingLeft: 35,
-                paddingTop: 12,
-                fontFamily: fonts.primary.normal
-              }}
-              placeholder="Masukan email"
-            />
-          </View>
-          <MyGap jarak={10} />
-          <Text style={{
-            fontFamily: fonts.primary.normal,
-            fontSize: myDimensi / 2,
-            color: colors.border_label,
-            marginBottom: 5,
-          }}>Dinas</Text>
-
-          <View style={{
-            position: 'relative'
-          }}>
-            <View style={{
-              position: 'absolute',
-              left: 0,
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: '100%', padding: 10,
-            }}>
-              <Icon type='ionicon' name='map-outline' size={myDimensi / 1.6} color={colors.primary} />
-            </View>
-            <TextInput autoCapitalize='none' value={kirim.dinas} onChangeText={v => setKirim({
-              ...kirim,
-              dinas: v
+              npp: v
             })}
 
               style={{
@@ -262,9 +209,10 @@ export default function Register({ navigation }) {
                 paddingTop: 12,
                 fontFamily: fonts.primary.normal
               }}
-              placeholder="Masukan dinas"
+              placeholder="Masukan npp"
             />
           </View>
+
 
           <MyGap jarak={10} />
           <Text style={{
@@ -324,21 +272,6 @@ export default function Register({ navigation }) {
           {!loading && <MyButton onPress={__masuk_via_email} title="Daftar" warna={colors.primary} Icons="create-outline" />}
           {loading && <ActivityIndicator color={colors.primary} size="large" />}
           <MyGap jarak={10} />
-          <Text style={{
-            fontFamily: fonts.primary.normal,
-            fontSize: myDimensi / 2,
-            color: colors.black_font,
-            textAlign: 'center'
-          }}>Dengan masuk, anda telah menyetujui</Text>
-          <TouchableOpacity>
-            <Text style={{
-              fontFamily: fonts.primary.normal,
-              fontSize: myDimensi / 2,
-              color: colors.primary,
-              textAlign: 'center'
-            }}>Syarat & Ketentuan</Text>
-          </TouchableOpacity>
-          <MyGap jarak={20} />
 
         </View>
       </ScrollView>

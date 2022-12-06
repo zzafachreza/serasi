@@ -8,12 +8,10 @@ import axios from 'axios';
 import 'intl';
 import 'intl/locale-data/jsonp/en';
 import MyCarouser from '../../components/MyCarouser';
-import { ImageBackground } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import PushNotification from 'react-native-push-notification';
 import { useIsFocused } from '@react-navigation/native';
-import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
-import { TouchableNativeFeedback } from 'react-native';
+import { TextInput } from 'react-native';
 export default function Home({ navigation, route }) {
 
   const [user, setUser] = useState({});
@@ -117,7 +115,7 @@ export default function Home({ navigation, route }) {
       <View style={{
         backgroundColor: colors.primary,
         flexDirection: 'row',
-        height: windowHeight / 12,
+        height: windowHeight / 9,
       }}>
         <View style={{
           flex: 1,
@@ -131,17 +129,52 @@ export default function Home({ navigation, route }) {
             fontFamily: fonts.primary[600],
             fontSize: myDimensi / 2
           }}>{user.nama_lengkap}</Text></Text>
-          <Text style={{
-            fontFamily: fonts.primary[600],
-            fontSize: myDimensi / 1.2,
-            color: colors.white
-          }}>Serasi</Text>
+          <Image source={require('../../assets/logo.png')} style={{
+            width: 100,
+            height: 50,
+          }} />
         </View>
 
 
 
       </View>
 
+      <View>
+        <View style={{
+          position: 'relative',
+          marginHorizontal: 10,
+          marginTop: 10,
+        }}>
+          <View style={{
+            position: 'absolute',
+            left: 0,
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100%', padding: 10,
+          }}>
+            <Icon name='search' light size={myDimensi / 1.6} color={colors.primary} />
+          </View>
+          <TextInput onFocus={
+            () => navigation.navigate('AADaftar', {
+              jenis: 'Semua'
+            })
+          } placeholderTextColor={colors.primary}
+
+            style={{
+              borderWidth: 1,
+              borderColor: colors.primary,
+              color: colors.black,
+              borderRadius: 10,
+              fontSize: myDimensi / 2,
+              paddingLeft: 35,
+              paddingTop: 12,
+              fontFamily: fonts.primary.normal
+            }}
+            placeholder="Quick search SOP/Kebijakan"
+
+          />
+        </View>
+      </View>
       {/* slider */}
       <MyCarouser />
 
